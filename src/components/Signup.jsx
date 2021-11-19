@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
@@ -10,7 +9,7 @@ import { useSession } from '../context/sessionContext'
 
 const Signup = () => {
   const [formulario, setFormulario] = useState({ email: '', password: '', passwordconfirm: '' })
-  const { signup } = useSession()
+  const { signup, userprofile } = useSession()
   const [errorMsg, setErrorMsg] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
   const [loading, setLoading] = useState(false)
@@ -35,13 +34,15 @@ const Signup = () => {
     try {
       setErrorMsg('')
       setLoading(true)
-      await signup(formulario.email, formulario.password)
-    } catch {
+      const new_user = await signup(formulario.email, formulario.password)
+      await userprofile(new_user.user.uid, new_user.user.email)
+
+    } catch (e) {
+      console.log(e)
       return setTimeout(() => {
         setLoading(false)
         setErrorMsg('Error al crear la cuenta')
       }, 2000);
-
     }
     setErrorMsg('')
 
@@ -50,8 +51,6 @@ const Signup = () => {
 
   }
 
-
-  console.log(formulario)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -100,7 +99,6 @@ const Signup = () => {
     </form>
 
   )
-
 }
 
 export default Signup

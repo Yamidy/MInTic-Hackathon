@@ -65,7 +65,6 @@ const Login = () => {
   }
 
 
-  console.log(formulario)
 
   return (
     <form onSubmit={!isPassReset ? handleSubmit : handleResetPass}>
