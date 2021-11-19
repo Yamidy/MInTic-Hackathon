@@ -8,17 +8,16 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Slide from '@mui/material/Slide';
-import Button  from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogutIcon from '@mui/icons-material/Logout'
 import TransitionsModal from '../login/TransitionsModal';
-
 import Drawer from '@mui/material/Drawer';
-
-
-
-
+import Signup from './Signup'
+import Login from './Login'
+import {useSession } from '../context/sessionContext'
 
 
 function HideOnScroll(props) {
@@ -49,39 +48,56 @@ HideOnScroll.propTypes = {
 export default function HideAppBar(props) {
 
 
-    
-//Barra lateral responsive: =====================================
-const drawerWidth = 240;
 
-const { window } = props;
-const [mobileOpen, setMobileOpen] = React.useState(false);
+  //Barra lateral responsive: =====================================
+  const drawerWidth = 240;
 
-const handleDrawerToggle = () => {
-  setMobileOpen(!mobileOpen);
-};
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-const drawer = (
-  <div >
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <div >
       <Box sx={{ my: 2 }}>
-            Barra lateral      
+        Barra lateral
       </Box>
-  </div>
-);
+    </div>
+  );
 
-const container = window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
-/// ==========================================================================
+  /// ==========================================================================
+
+  const {currentUser, logout} = useSession();
+  const handleLogout = async()=>{
+
+    try {
+      await logout()
+    logout()
+    } catch (e) {
+      
+    console.log(e)
+    }
+  }
 
 
+  ///estado para el botón de desplegar el modal del login: ==================================
 
-///estado para el botón de desplegar el modal del login: ==================================
-
-const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [openLogin, setOpenLogin] = React.useState(false);
+  const handleOpenLogin = () => setOpenLogin(true);
+  const handleCloseLogin = () => setOpenLogin(false);
 
-///========================================================================================
+  console.log(currentUser)
+
+
+  ///========================================================================================
 
   return (
     <React.Fragment>
@@ -89,66 +105,83 @@ const [open, setOpen] = React.useState(false);
       <HideOnScroll {...props}>
         <AppBar>
           <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2}}
-          >
-            <MenuIcon />
-          </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Ecologicapp
             </Typography>
+
+            {!currentUser ? (
+              <>
+            <Button color="inherit" onClick={handleOpen}>
+              <Typography>
+                Registrarse
+              </Typography>
+            </Button>
+            <Button color="inherit" onClick={handleOpenLogin}>
+              <Typography>
+                Ingresar
+              </Typography>
+            </Button>
+            </>
+            ):(
+            <>
             <Button color="inherit">
-            <Typography>
-              Registrarse
-            </Typography>
+              <Typography>
+              {currentUser.email}
+              </Typography>
+              <AccountCircleIcon />
             </Button>
-            <Button color="inherit" onClick={handleOpen} >
-            <Typography>
-              Ingresar
-            </Typography>
+            <Button color="inherit" onClick={handleLogout}>
+              <LogutIcon />
             </Button>
-            <Button color="inherit">
-            <Typography>
-              Usuario Anónimo
-            </Typography>
-            <AccountCircleIcon />
-            </Button>
-              
+            </>
+            )
+            }
           </Toolbar>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
 
       <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block'},
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
 
-        <TransitionsModal open = {open} onClose = {handleClose}/>
-      
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+        }}
+      >
+        {drawer}
+      </Drawer>
+
+      <TransitionsModal open={open} onClose={handleClose} title={''}>
+        <Signup />
+      </TransitionsModal>
+
+      <TransitionsModal open={openLogin} onClose={handleCloseLogin} title={''}>
+        <Login />
+      </TransitionsModal>
+
       <Container>
         <Box sx={{ my: 2 }}>
-           {props.children}        
+          {props.children}
         </Box>
       </Container>
     </React.Fragment>
 
-    
+
   );
 }

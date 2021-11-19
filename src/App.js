@@ -2,6 +2,8 @@ import './App.css';
 import HideAppBar from './components/HideAppBar';
 import ResponsiveGrid from './containers/retosContainer';
 import ActionAreaCard from './reto/Reto';
+import { SessionProvider } from './context/sessionContext'
+
 
 function App() {
 
@@ -56,15 +58,21 @@ for (let i=0;i< retosList.length; i++){
 
   return (
     <div className="App">
+      <SessionProvider>
         <HideAppBar>
+
            <h1>Retos ecológicos:</h1>
             
            <ResponsiveGrid retos = {retos}/>
 
-        </HideAppBar>
-      
+       
+            
 
-        
+   
+        </HideAppBar>
+      </SessionProvider>
+
+
     </div>
   );
 }
