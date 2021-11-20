@@ -7,6 +7,7 @@ import { CardActionArea } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 /// Este es el card que contiene cada reto, se le puede pasar como parámetros
 /// el título, un link para la imagen y la descripción que va en el children.
@@ -48,7 +49,7 @@ export default function ActionAreaCard(props) {
              {props.children}
           </Typography>
         </CardContent>
-      </CardActionArea>
+        </CardActionArea>
 
       <div>
       <Menu
@@ -66,6 +67,11 @@ export default function ActionAreaCard(props) {
         
       </Menu>
     </div>
+          <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            <Button>favoritos</Button>
+            <Button>Like</Button>
+            <Button>aceptar</Button>
+          </ButtonGroup>
     </Card>
   );
 }
