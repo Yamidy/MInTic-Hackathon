@@ -14,28 +14,32 @@ import UserProfile from './components/UserProfile'
 
 function App() {
 
-  ///En el siguiente listado de json's están los datos de los Retos para
-  /// pasarselos mapear los cards.
+  
 
   const [currentRetos, setCurrentRetos] = useState([])
 
   const retos = []
 
+
   for (let i = 0; i < currentRetos.length; i++) {
-    var disponible = ""
+    var mensajeDisponible = ""   
+    var vacantesDisponibles = currentRetos[i].vacantes - currentRetos[i].vacantesOcupadas
     if (currentRetos[i].disponible) {
-      disponible = <font color = "green" >Disponible</font>
-    } else { disponible = <font color = "red" >No disponible</font> }
+      mensajeDisponible = <font color = "green" >Disponible</font>
+    } else { mensajeDisponible = <font color = "red" >No disponible</font> }
 
     const item = <ActionAreaCard title={currentRetos[i].nombreReto} 
                                  imgLink={currentRetos[i].urlImg} 
                                  codigoReto = {currentRetos[i].codigoReto}
-                                 disponible = {currentRetos[i].disponible}>
+                                 disponible = {currentRetos[i].disponible}
+                                 mensajeDisponible = {mensajeDisponible}
+                                 vacantesDisponibles = {vacantesDisponibles}
+                                 >
+                                 
       {currentRetos[i].descripcionReto}
       <div>
         <Typography>
           Usuario: {currentRetos[i].usuarioReto} <br />
-          vacantes Disponibles: {currentRetos[i].vacantes - currentRetos[i].vacantesActuales} <br />
         </Typography>
       </div>
     </ActionAreaCard>

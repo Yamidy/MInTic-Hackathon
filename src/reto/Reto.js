@@ -32,7 +32,8 @@ export default function ActionAreaCard(props) {
 
   ///disponibilidad de vacantes:
   const [disponible, setDisponible] = React.useState(props.disponible)
-  const [mensajeDisponible, setMensajeDisponible] = React.useState()
+  const [mensajeDisponible, setMensajeDisponible] = React.useState(props.mensajeDisponible)
+  const [vacantesDisponibles, setVacantesDisponibles] = React.useState(props.vacantesDisponibles)
 
 
   /// acción para botón de aceptar reto:
@@ -44,14 +45,19 @@ export default function ActionAreaCard(props) {
     };
       const {data} = await axios.get('http://localhost:8085/api/v1/retos/vacantes/'+ e.target.value,
                         {headers});
-      setDisponible(props.disponible)
-      if(disponible){
-          setMensajeDisponible(<font color = "green" >Disponible</font>)
+
+                        
+      if(vacantesDisponibles - 1 == 0){
+        setVacantesDisponibles(vacantesDisponibles-1)
+        setMensajeDisponible(<font color = "red" >No disponible</font>)
+        setDisponible(false)
+      }
+      else if(data){
+          setMensajeDisponible(<font color = "green" >Disponible</font>)     
+          setVacantesDisponibles(vacantesDisponibles-1)
       }else{
           setMensajeDisponible(<font color = "red" >No disponible</font>)
       }
-      if(data) alert(data) 
-      else alert('no funciona')
   }
 
   return (
@@ -72,7 +78,8 @@ export default function ActionAreaCard(props) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
              {props.children}
-             {mensajeDisponible}
+             {mensajeDisponible}<br/>
+             {vacantesDisponibles}
           </Typography>
         </CardContent>
         </CardActionArea>
