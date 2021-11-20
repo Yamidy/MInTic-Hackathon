@@ -8,6 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import axios from 'axios';
 
 /// Este es el card que contiene cada reto, se le puede pasar como parámetros
 /// el título, un link para la imagen y la descripción que va en el children.
@@ -29,6 +30,30 @@ export default function ActionAreaCard(props) {
   };
 
 
+  ///disponibilidad de vacantes:
+  const [disponible, setDisponible] = React.useState(props.disponible)
+  const [mensajeDisponible, setMensajeDisponible] = React.useState()
+
+
+  /// acción para botón de aceptar reto:
+  
+  const aceptarReto = async (e)=>{
+    e.preventDefault()
+    const headers = {
+      "content-type" :  "application/json"
+    };
+      const {data} = await axios.get('http://localhost:8085/api/v1/retos/vacantes/'+ e.target.value,
+                        {headers});
+      setDisponible(props.disponible)
+      if(disponible){
+          setMensajeDisponible(<font color = "green" >Disponible</font>)
+      }else{
+          setMensajeDisponible(<font color = "red" >No disponible</font>)
+      }
+      if(data) alert(data) 
+      else alert('no funciona')
+  }
+
   return (
     <Card sx={{ maxWidth: 345 } } >
       <CardActionArea  aria-controls="basic-menu"
@@ -47,6 +72,7 @@ export default function ActionAreaCard(props) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
              {props.children}
+             {mensajeDisponible}
           </Typography>
         </CardContent>
         </CardActionArea>
@@ -67,10 +93,10 @@ export default function ActionAreaCard(props) {
         
       </Menu>
     </div>
-          <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button>favoritos</Button>
-            <Button>Like</Button>
-            <Button>aceptar</Button>
+          <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth = "true">
+            <Button disabled = {!disponible}>favoritos</Button>
+            <Button disabled = {!disponible}>Like</Button>
+            <Button value={props.codigoReto} onClick = {aceptarReto} disabled = {!disponible}>aceptar</Button>
           </ButtonGroup>
     </Card>
   );

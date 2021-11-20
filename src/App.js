@@ -24,16 +24,18 @@ function App() {
   for (let i = 0; i < currentRetos.length; i++) {
     var disponible = ""
     if (currentRetos[i].disponible) {
-      disponible = "disponible"
-    } else { disponible = "no disponible" }
+      disponible = <font color = "green" >Disponible</font>
+    } else { disponible = <font color = "red" >No disponible</font> }
 
-    const item = <ActionAreaCard title={currentRetos[i].nombreReto} imgLink={currentRetos[i].urlImg}>
+    const item = <ActionAreaCard title={currentRetos[i].nombreReto} 
+                                 imgLink={currentRetos[i].urlImg} 
+                                 codigoReto = {currentRetos[i].codigoReto}
+                                 disponible = {currentRetos[i].disponible}>
       {currentRetos[i].descripcionReto}
       <div>
         <Typography>
           Usuario: {currentRetos[i].usuarioReto} <br />
-          vacantes: {currentRetos[i].vacantes} <br />
-          {disponible} <br />
+          vacantes Disponibles: {currentRetos[i].vacantes - currentRetos[i].vacantesActuales} <br />
         </Typography>
       </div>
     </ActionAreaCard>
