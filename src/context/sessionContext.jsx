@@ -52,6 +52,10 @@ const SessionProvider = ({ children }) => {
     return ans
   }
 
+  const fetchProfile = async () => {
+    setUserProfile(getUserprofile(currentUser.uid))
+  }
+
   const logout = () => {
     return signOut(auth)
   }
@@ -67,13 +71,15 @@ const SessionProvider = ({ children }) => {
       // getUserprofile(user.uid).then((res) => {
       //   a = res
       // setTemp(getUserprofile(user))
-      setUserProfile(getUserprofile(user.uid))
+      // if (currentUser) {
+      //   setUserProfile(getUserprofile(currentUser.uid))
+      // }
       // setUserProfile(data)
       setLoading(false)
     })
     return unsub
 
-  }, [])
+  }, [currentUser])
 
 
   const value = {
@@ -84,7 +90,8 @@ const SessionProvider = ({ children }) => {
     logout,
     resetPassword,
     userprofile,
-    getUserprofile
+    getUserprofile,
+    fetchProfile
   }
 
   return (

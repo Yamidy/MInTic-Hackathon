@@ -176,7 +176,6 @@ export default function HideAppBar(props) {
 
       <Container>
         <Box sx={{ my: 2 }}>
-          {currentUser && <UserProfile />}
 
           {props.children}
         </Box>
