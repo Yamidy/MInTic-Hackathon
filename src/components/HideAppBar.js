@@ -17,7 +17,8 @@ import TransitionsModal from '../login/TransitionsModal';
 import Drawer from '@mui/material/Drawer';
 import Signup from './Signup'
 import Login from './Login'
-import {useSession } from '../context/sessionContext'
+import UserProfile from './UserProfile'
+import { useSession } from '../context/sessionContext'
 
 
 function HideOnScroll(props) {
@@ -71,15 +72,15 @@ export default function HideAppBar(props) {
 
   /// ==========================================================================
 
-  const {currentUser, logout} = useSession();
-  const handleLogout = async()=>{
+  const { currentUser, logout } = useSession();
+  const handleLogout = async () => {
 
     try {
       await logout()
-    logout()
+      logout()
     } catch (e) {
-      
-    console.log(e)
+
+      console.log(e)
     }
   }
 
@@ -93,8 +94,6 @@ export default function HideAppBar(props) {
   const [openLogin, setOpenLogin] = React.useState(false);
   const handleOpenLogin = () => setOpenLogin(true);
   const handleCloseLogin = () => setOpenLogin(false);
-
-  console.log(currentUser)
 
 
   ///========================================================================================
@@ -120,29 +119,29 @@ export default function HideAppBar(props) {
 
             {!currentUser ? (
               <>
-            <Button color="inherit" onClick={handleOpen}>
-              <Typography>
-                Registrarse
-              </Typography>
-            </Button>
-            <Button color="inherit" onClick={handleOpenLogin}>
-              <Typography>
-                Ingresar
-              </Typography>
-            </Button>
-            </>
-            ):(
-            <>
-            <Button color="inherit">
-              <Typography>
-              {currentUser.email}
-              </Typography>
-              <AccountCircleIcon />
-            </Button>
-            <Button color="inherit" onClick={handleLogout}>
-              <LogutIcon />
-            </Button>
-            </>
+                <Button color="inherit" onClick={handleOpen}>
+                  <Typography>
+                    Registrarse
+                  </Typography>
+                </Button>
+                <Button color="inherit" onClick={handleOpenLogin}>
+                  <Typography>
+                    Ingresar
+                  </Typography>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button color="inherit">
+                  <Typography>
+                    {currentUser.email}
+                  </Typography>
+                  <AccountCircleIcon />
+                </Button>
+                <Button color="inherit" onClick={handleLogout}>
+                  <LogutIcon />
+                </Button>
+              </>
             )
             }
           </Toolbar>
@@ -177,11 +176,11 @@ export default function HideAppBar(props) {
 
       <Container>
         <Box sx={{ my: 2 }}>
+
           {props.children}
         </Box>
       </Container>
     </React.Fragment>
-
 
   );
 }
