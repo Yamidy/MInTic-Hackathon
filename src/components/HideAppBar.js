@@ -13,11 +13,17 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogutIcon from '@mui/icons-material/Logout'
-import TransitionsModal from '../login/TransitionsModal';
+import TransitionsModal from '../Modals/TransitionsModal';
 import Drawer from '@mui/material/Drawer';
 import Signup from './Signup'
 import Login from './Login'
 import {useSession } from '../context/sessionContext'
+import IngresarReto from '../IngresarReto/IngresarReto';
+
+
+
+
+
 
 
 function HideOnScroll(props) {
@@ -94,10 +100,15 @@ export default function HideAppBar(props) {
   const handleOpenLogin = () => setOpenLogin(true);
   const handleCloseLogin = () => setOpenLogin(false);
 
+  const [openIngresarReto, setOpenIngresarReto] = React.useState(false);
+  const handleOpenIngresarReto = () => setOpenIngresarReto(true);
+  const handleCloseIngresarReto = () => setOpenIngresarReto(false);
+
   console.log(currentUser)
 
 
   ///========================================================================================
+
 
   return (
     <React.Fragment>
@@ -120,6 +131,11 @@ export default function HideAppBar(props) {
 
             {!currentUser ? (
               <>
+            <Button color="inherit" onClick={handleOpenIngresarReto}>
+              <Typography>
+                Añadir Reto
+              </Typography>
+            </Button>
             <Button color="inherit" onClick={handleOpen}>
               <Typography>
                 Registrarse
@@ -133,6 +149,7 @@ export default function HideAppBar(props) {
             </>
             ):(
             <>
+            
             <Button color="inherit">
               <Typography>
               {currentUser.email}
@@ -175,9 +192,15 @@ export default function HideAppBar(props) {
         <Login />
       </TransitionsModal>
 
+      <TransitionsModal   open = {openIngresarReto} onClose ={handleCloseIngresarReto} title = ''>
+          <IngresarReto/>
+      </TransitionsModal>
+
       <Container>
         <Box sx={{ my: 2 }}>
           {props.children}
+
+
         </Box>
       </Container>
     </React.Fragment>

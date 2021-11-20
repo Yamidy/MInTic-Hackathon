@@ -23,7 +23,10 @@ const style = {
 export default function TransitionsModal(props) {
 
 
-
+// open ; es un booleano para desplegar el modal
+// onClose ; es una función para cerrar
+// title ; es el título
+// children ; es el cuerpo
 
   return (
     <div>
