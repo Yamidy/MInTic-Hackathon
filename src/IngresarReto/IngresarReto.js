@@ -24,22 +24,24 @@ export default function IngresarReto()  {
 
 
   const formulario = {
-      nombreReto : {nombreReto},
-      descripcionReto : {descripcionReto},
-      vacantes : {vacantes},
-      disponible: {disponible},
-      urlImg : {urlImg}
+      "nombreReto" : nombreReto,
+      "descripcionReto" : descripcionReto,
+      "vacantes" : vacantes,
+      "disponible": disponible,
+      "urlImg" : urlImg
     }
   
 
 
 
-  const addReto = async () => {
+  const addReto = async (e) => {
+    e.preventDefault()
+    console.log(JSON.stringify(formulario))
     const headers = {
       "content-type" :  "application/json"
     };
       const response = await axios.post('http://localhost:8085/api/v1/retos',
-                        formulario,
+                        JSON.stringify(formulario),
                         {headers});
       if(response) alert(response) 
       else alert('no funciona')
@@ -103,7 +105,7 @@ export default function IngresarReto()  {
           control={<Switch defaultChecked />} 
           label="disponible" 
           name = "disponible" 
-          onChange = {(e) => setDisponible(e.target.value)}
+          onChange = {(e) => setDisponible(e.target.checked)}
         />
 
       
