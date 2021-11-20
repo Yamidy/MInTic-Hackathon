@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react'
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,7 +19,6 @@ import Drawer from '@mui/material/Drawer';
 import Signup from './Signup'
 import Login from './Login'
 import { useSession } from '../context/sessionContext'
-import IngresarReto from '../IngresarReto/IngresarReto';
 
 
 function HideOnScroll(props) {
@@ -87,17 +87,14 @@ export default function HideAppBar(props) {
 
   ///estado para el botón de desplegar el modal del login: ==================================
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [openLogin, setOpenLogin] = React.useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
   const handleOpenLogin = () => setOpenLogin(true);
   const handleCloseLogin = () => setOpenLogin(false);
 
-  const [openIngresarReto, setOpenIngresarReto] = React.useState(false);
-  const handleOpenIngresarReto = () => setOpenIngresarReto(true);
-  const handleCloseIngresarReto = () => setOpenIngresarReto(false);
 
   console.log(currentUser)
 
@@ -124,11 +121,6 @@ export default function HideAppBar(props) {
 
             {!currentUser ? (
               <>
-                <Button color="inherit" onClick={handleOpenIngresarReto}>
-                  <Typography>
-                    Añadir Reto
-                  </Typography>
-                </Button>
                 <Button color="inherit" onClick={handleOpen}>
                   <Typography>
                     Registrarse
@@ -182,10 +174,6 @@ export default function HideAppBar(props) {
 
       <TransitionsModal open={openLogin} onClose={handleCloseLogin} title={''}>
         <Login />
-      </TransitionsModal>
-
-      <TransitionsModal open={openIngresarReto} onClose={handleCloseIngresarReto} title=''>
-        <IngresarReto />
       </TransitionsModal>
 
       <Container>
