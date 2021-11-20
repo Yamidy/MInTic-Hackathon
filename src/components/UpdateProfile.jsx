@@ -7,9 +7,9 @@ import { useSession } from '../context/sessionContext'
 
 
 
-const Signup = () => {
-  const [formulario, setFormulario] = useState({ email: '', password: '', passwordconfirm: '' })
-  const { signup, userprofile } = useSession()
+const UpdateProfile = () => {
+  const { currentUser, updateName, updateImage, updatePass } = useSession()
+  const [formulario, setFormulario] = useState({ name: currentUser.displayName, password: '', passwordconfirm: '', image:currentUser.photoURL })
   const [errorMsg, setErrorMsg] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
   const [loading, setLoading] = useState(false)
@@ -24,39 +24,38 @@ const Signup = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setPasswordMatch(true)
-    if (formulario.password !== formulario.passwordconfirm) {
-      return setPasswordMatch(false)
-      // return setErrorMsg('Contrasenas no coinciden')
-    }
 
-    try {
-      setErrorMsg('')
-      setLoading(true)
-      const new_user = await signup(formulario.email, formulario.password)
-      await userprofile(new_user.user.uid, new_user.user.email)
-
-    } catch (e) {
-        setLoading(false)
-        switch (e.code) {
-        case 'auth/email-already-in-use':
-        return setErrorMsg('Email ya se encuentra registrado');
-            break;
-        case 'auth/weak-password':
-              return setErrorMsg('La contrasena debe tener al menos seis caracteres')
-              break;
-          default:
-              return setErrorMsg('Error al crear la cuenta')
-            break;
-        }
-    }
-    setErrorMsg('')
-
-    setSuccessMsg('Cuenta creada exitosamente')
+  e.preventDefault();
+  setLoading(true)
+  setErrorMsg('')
+  setPasswordMatch(true)
+  if (formulario.password !== formulario.passwordconfirm) {
     setLoading(false)
-
+    return setPasswordMatch(false)
+      // return setErrorMsg('Contrasenas no coinciden')
   }
+
+  const promises = [];
+  if(formulario.name !== currentUser.displayName){
+    promises.push(updateName(formulario.name))
+  }
+
+  if(formulario.image !== currentUser.photoURL){
+    promises.push(updateImage(formulario.image))
+  }
+
+  if(formulario.password !== ''){
+    promises.push(updatePass(formulario.password))
+    }
+
+  Promise.all(promises).then(()=>{
+    setSuccessMsg('Datos actualizados')
+    }).catch(()=>{
+    setErrorMsg('Error al actualizar. Intente de nuevo')
+      }).finally(()=>{
+      setLoading(false)
+      })
+    }
 
 
   return (
@@ -67,11 +66,21 @@ const Signup = () => {
           <>
             <Grid item xs={12}>
               <TextField
-                id='email'
-                name='email'
-                label='Correo'
-                type='email'
-                value={formulario.email}
+                id='name'
+                name='name'
+                label='Nombre'
+                type='text'
+                value={formulario.name}
+                onChange={handleFormulario}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id='image'
+                name='image'
+                label='URL Imagen'
+                type='text'
+                value={formulario.image}
                 onChange={handleFormulario}
               />
             </Grid>
@@ -83,6 +92,7 @@ const Signup = () => {
                 type='password'
                 value={formulario.password}
                 onChange={handleFormulario}
+                placeholder="Deja en blanco para no cambiar"
               />
             </Grid>
             <Grid item>
@@ -95,10 +105,11 @@ const Signup = () => {
                 type='password'
                 value={formulario.passwordconfirm}
                 onChange={handleFormulario}
+                placeholder="Deja en blanco para no cambiar"
               />
             </Grid>
             <Grid item>
-              <Button variant='contained' color='primary' type='submit' disabled={loading}>Registrarse</Button>
+            <Button variant='contained' color='primary' type='submit' disabled={loading}>Actualizar</Button>
             </Grid>
           </>
         )}
@@ -108,4 +119,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default UpdateProfile

@@ -3,15 +3,19 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { useSession } from '../context/sessionContext'
 import { useEffect, useState } from 'react'
+import { styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar'
 import Grid from '@mui/material/Grid'
 import EditIcon from '@mui/icons-material/Edit'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
-import WheelComponent from 'react-wheel-of-prizes'
 import TransitionsModal from '../Modals/TransitionsModal'
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import IngresarReto from '../IngresarReto/IngresarReto';
+import UpdateProfile from './UpdateProfile';
+
 
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -20,7 +24,7 @@ import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-
+import DailyChallenge from './DailyChallenge'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -54,6 +58,7 @@ function a11yProps(index) {
   };
 }
 
+
 const UserProfile = ({ children }) => {
 
   // const [profile, setProfile] = useState({})
@@ -67,31 +72,6 @@ const UserProfile = ({ children }) => {
   }
   )
   const { currentUser, getUserprofile } = useSession();
-  const dailyChallenges = ['Sin energia por una hora',
-    'Dia sin comer carne',
-    'Limpieza de emails',
-    'Salva la banana solitaria',
-    'otro mas',
-    'a'
-  ]
-
-  const selectedChallenge = (c) => {
-    console.log(c)
-  }
-
-  const segColors = [
-    '#EE4040',
-    '#F0CF50',
-    '#815CD1',
-    '#3DA5E0',
-    '#34A24F',
-    '#F9AA1F',
-    '#EC3F3F',
-    '#FF9000'
-  ]
-  const onFinished = (winner) => {
-    alert(winner)
-  }
   // const [loading, setLoading] = useState(true)
   useEffect(() => {
     console.log(currentUser)
@@ -111,9 +91,6 @@ const UserProfile = ({ children }) => {
       )
     }
 
-    // userProfile.then((result) => {
-    //   setUserData(result)
-    // })
   }, [])
 
   const [open, setOpen] = useState(false);
@@ -133,9 +110,17 @@ const UserProfile = ({ children }) => {
     setValue(index);
   };
 
+  const [openIngresarReto, setOpenIngresarReto] = useState(false);
+  const handleOpenIngresarReto = () => setOpenIngresarReto(true);
+  const handleCloseIngresarReto = () => setOpenIngresarReto(false);
+
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const handleOpenUpdate = () => setOpenUpdate(true);
+  const handleCloseUpdate = () => setOpenUpdate(false);
+
   return (
     <>
-      <Paper sx={{ p: 2, margin: 'auto', flexGrow: 1 }}>
+      <Paper sx={{ p: 2,  flexGrow: 1 }}>
         <Container>
           <Grid container spacing={5} justifyContent='center' display='flex' flexDirection='column' alignItems='center'>
             <Grid item >
@@ -146,13 +131,15 @@ const UserProfile = ({ children }) => {
               />
             </Grid>
             <Grid item>
-              <Typography variant='h3'>{userData ? userData.fullName : currentUser.email}</Typography>
+              <Typography variant='h3'>{currentUser.displayName || currentUser.email}</Typography>
               <Typography variant='h5'>{currentUser.email}</Typography>
+              <Button onClick={handleOpenUpdate} >
               <EditIcon />
+              </Button>
             </Grid>
           </Grid>
         </Container>
-        <AppBar position="static">
+        <AppBar position="static" sx={{marginTop:5}}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -161,7 +148,7 @@ const UserProfile = ({ children }) => {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="Retos Disponibles" {...a11yProps(0)} />
+            <Tab label="Retos de la comunidad" {...a11yProps(0)} />
             <Tab label="Mis Retos creados" {...a11yProps(1)} />
             <Tab label="Retos Aceptados" {...a11yProps(2)} />
             <Tab label="Reto diario" {...a11yProps(3)} />
@@ -177,6 +164,9 @@ const UserProfile = ({ children }) => {
           {children}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
+          <Button variant='contained' color='secondary' startIcon={<AddIcon />} sx={{marginBottom:5}} onClick={handleOpenIngresarReto}>
+            Agregar Reto
+          </Button>
           <Card sx={{ width: '30%' }} >
             <CardMedia
               component='img'
@@ -211,36 +201,16 @@ const UserProfile = ({ children }) => {
           </Card >
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          <WheelComponent
-            segments={dailyChallenges}
-            segColors={segColors}
-            onFinished={(winner) => onFinished(winner)}
-            primaryColor='black'
-            contrastColor='white'
-            buttonText='Girar'
-            isOnlyOnce={true}
-            size={200}
-            upDuration={100}
-            downDuration={1000}
-            fontFamily='Sans-serif'
-          />
-        </TabPanel>
+          <DailyChallenge />
+                 </TabPanel>
       </SwipeableViews>
 
-      <TransitionsModal open={open} onClose={handleClose} title={''}>
-        <WheelComponent
-          segments={dailyChallenges}
-          segColors={segColors}
-          onFinished={(winner) => onFinished(winner)}
-          primaryColor='black'
-          contrastColor='white'
-          buttonText='Girar'
-          isOnlyOnce={true}
-          size={200}
-          upDuration={100}
-          downDuration={1000}
-          fontFamily='Sans-serif'
-        />
+      <TransitionsModal open={openIngresarReto} onClose={handleCloseIngresarReto} title=''>
+        <IngresarReto />
+      </TransitionsModal>
+
+      <TransitionsModal open={openUpdate} onClose={handleCloseUpdate} title={''}>
+        <UpdateProfile />
       </TransitionsModal>
     </>
   )

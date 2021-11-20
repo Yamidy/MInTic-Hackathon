@@ -11,7 +11,9 @@ import {
   ref,
   set,
   child,
-  get
+  get,
+  updateProfile,
+  updatePassword
 } from '../auth/firebase'
 
 const SessionContext = createContext();
@@ -32,7 +34,6 @@ const SessionProvider = ({ children }) => {
 
   const userprofile = (uid, email) => {
     return set(ref(database, 'users/' + uid), {
-      fullName: email,
       currentChallenges: [],
       streak: 0,
       badges: ['newbie'],
@@ -64,6 +65,23 @@ const SessionProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   }
 
+  const updateName = (name) =>{
+    return updateProfile(auth.currentUser,{
+      displayName:name 
+      })
+    }
+    
+  const updateImage = (image) =>{
+    return updateProfile(auth.currentUser,{
+      photoURL:image 
+      })
+    }
+
+  const updatePass = (pass) =>{
+    return updatePassword(auth.currentUser , pass)
+  }
+
+
   // const [temp, setTemp] = useState(null)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -91,7 +109,10 @@ const SessionProvider = ({ children }) => {
     resetPassword,
     userprofile,
     getUserprofile,
-    fetchProfile
+    fetchProfile,
+    updateName,
+    updateImage,
+    updatePass
   }
 
   return (
