@@ -17,13 +17,8 @@ import TransitionsModal from '../Modals/TransitionsModal';
 import Drawer from '@mui/material/Drawer';
 import Signup from './Signup'
 import Login from './Login'
-import {useSession } from '../context/sessionContext'
+import { useSession } from '../context/sessionContext'
 import IngresarReto from '../IngresarReto/IngresarReto';
-
-
-
-
-
 
 
 function HideOnScroll(props) {
@@ -77,15 +72,15 @@ export default function HideAppBar(props) {
 
   /// ==========================================================================
 
-  const {currentUser, logout} = useSession();
-  const handleLogout = async()=>{
+  const { currentUser, logout } = useSession();
+  const handleLogout = async () => {
 
     try {
       await logout()
-    logout()
+      logout()
     } catch (e) {
-      
-    console.log(e)
+
+      console.log(e)
     }
   }
 
@@ -106,9 +101,7 @@ export default function HideAppBar(props) {
 
   console.log(currentUser)
 
-
   ///========================================================================================
-
 
   return (
     <React.Fragment>
@@ -131,35 +124,34 @@ export default function HideAppBar(props) {
 
             {!currentUser ? (
               <>
-            <Button color="inherit" onClick={handleOpenIngresarReto}>
-              <Typography>
-                Añadir Reto
-              </Typography>
-            </Button>
-            <Button color="inherit" onClick={handleOpen}>
-              <Typography>
-                Registrarse
-              </Typography>
-            </Button>
-            <Button color="inherit" onClick={handleOpenLogin}>
-              <Typography>
-                Ingresar
-              </Typography>
-            </Button>
-            </>
-            ):(
-            <>
-            
-            <Button color="inherit">
-              <Typography>
-              {currentUser.email}
-              </Typography>
-              <AccountCircleIcon />
-            </Button>
-            <Button color="inherit" onClick={handleLogout}>
-              <LogutIcon />
-            </Button>
-            </>
+                <Button color="inherit" onClick={handleOpenIngresarReto}>
+                  <Typography>
+                    Añadir Reto
+                  </Typography>
+                </Button>
+                <Button color="inherit" onClick={handleOpen}>
+                  <Typography>
+                    Registrarse
+                  </Typography>
+                </Button>
+                <Button color="inherit" onClick={handleOpenLogin}>
+                  <Typography>
+                    Ingresar
+                  </Typography>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button color="inherit">
+                  <Typography>
+                    {currentUser.email}
+                  </Typography>
+                  <AccountCircleIcon />
+                </Button>
+                <Button color="inherit" onClick={handleLogout}>
+                  <LogutIcon />
+                </Button>
+              </>
             )
             }
           </Toolbar>
@@ -192,19 +184,19 @@ export default function HideAppBar(props) {
         <Login />
       </TransitionsModal>
 
-      <TransitionsModal   open = {openIngresarReto} onClose ={handleCloseIngresarReto} title = ''>
-          <IngresarReto/>
+      <TransitionsModal open={openIngresarReto} onClose={handleCloseIngresarReto} title=''>
+        <IngresarReto />
       </TransitionsModal>
 
       <Container>
         <Box sx={{ my: 2 }}>
+
           {props.children}
 
 
         </Box>
       </Container>
     </React.Fragment>
-
 
   );
 }

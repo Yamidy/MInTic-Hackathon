@@ -11,7 +11,7 @@ import { useSession } from '../context/sessionContext'
 
 const Login = () => {
   const [formulario, setFormulario] = useState({ email: '', password: '' })
-  const { login, resetPassword } = useSession()
+  const { login, resetPassword, fetchProfile } = useSession()
   const [errorMsg, setErrorMsg] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
   const [loading, setLoading] = useState(false)
@@ -26,10 +26,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // const promises = []
+
+    // promises.push(login(formulario.email, formulario.password))
+    // promises.push(fetchProfile())
 
     try {
       setErrorMsg('')
       setLoading(true)
+      // await Promise.all(promises)
       await login(formulario.email, formulario.password)
     } catch {
 
@@ -65,7 +70,6 @@ const Login = () => {
   }
 
 
-  console.log(formulario)
 
   return (
     <form onSubmit={!isPassReset ? handleSubmit : handleResetPass}>

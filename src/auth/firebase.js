@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-// import 'firebase/auth'
+import { getDatabase, ref, set, child, get } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 
 
@@ -13,10 +13,9 @@ const config = ({
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 })
 
-console.log(config)
-
 const app = initializeApp(config);
+const database = getDatabase(app);
 
-export { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail }
+export { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, database, ref, set, child, get }
 export const auth = getAuth();
 export default app
