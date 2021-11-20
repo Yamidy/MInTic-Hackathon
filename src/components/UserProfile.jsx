@@ -10,7 +10,7 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import WheelComponent from 'react-wheel-of-prizes'
-import TransitionsModal from '../login/TransitionsModal'
+import TransitionsModal from '../Modals/TransitionsModal'
 import Button from '@mui/material/Button';
 
 import PropTypes from 'prop-types';

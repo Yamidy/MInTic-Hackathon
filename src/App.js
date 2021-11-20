@@ -39,17 +39,6 @@ function App() {
     </ActionAreaCard>
     retos.push(item)
   }
-  ///En el siguiente listado de json's están los datos de los Retos para
-  /// pasarselos mapear los cards.
-
-  const retos = [];
-
-  for (let i = 0; i < retosList.length; i++) {
-    const item = <ActionAreaCard title={retosList[i].title} imgLink={retosList[i].imgLink}>
-      {retosList[i].descripition}
-    </ActionAreaCard>
-    retos.push(item)
-  }
 
 
   const { currentUser } = useSession();

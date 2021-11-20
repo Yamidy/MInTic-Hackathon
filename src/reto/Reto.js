@@ -61,11 +61,7 @@ export default function ActionAreaCard(props) {
         }}
       >
         <Typography>
-        ñlaksjdñf alsdkj ñlkajsd lf
-         ñlaskdjflk sdkfn kjalsd laksjd fla ljasl dkf lajsd lfkjasdf
-         asdfasdf
-         aasdfasdf
-
+  
         </Typography>
         
       </Menu>
