@@ -29,8 +29,11 @@ export default function ActionAreaCard(props) {
 
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{ maxWidth: 345 } } >
+      <CardActionArea  aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}>
         <CardMedia
           component="img"
           height="140"
@@ -44,17 +47,10 @@ export default function ActionAreaCard(props) {
           <Typography variant="body2" color="text.secondary">
              {props.children}
           </Typography>
-          
+        </CardContent>
+      </CardActionArea>
+
       <div>
-      <Button
-        id="basic-button"
-        aria-controls="basic-menu"
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        Más información
-      </Button>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -64,13 +60,16 @@ export default function ActionAreaCard(props) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <Typography>
+        ñlaksjdñf alsdkj ñlkajsd lf
+         ñlaskdjflk sdkfn kjalsd laksjd fla ljasl dkf lajsd lfkjasdf
+         asdfasdf
+         aasdfasdf
+
+        </Typography>
+        
       </Menu>
     </div>
-        </CardContent>
-      </CardActionArea>
     </Card>
   );
 }
