@@ -25,6 +25,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DailyChallenge from './DailyChallenge'
+import RetosUser from './RetosUser'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -59,7 +60,7 @@ function a11yProps(index) {
 }
 
 
-const UserProfile = ({ children }) => {
+const UserProfile = ({ children , retosUser , idUser }) => {
 
   // const [profile, setProfile] = useState({})
   const [userData, setUserData] = useState({
@@ -167,21 +168,10 @@ const UserProfile = ({ children }) => {
           <Button variant='contained' color='secondary' startIcon={<AddIcon />} sx={{marginBottom:5}} onClick={handleOpenIngresarReto}>
             Agregar Reto
           </Button>
-          <Card sx={{ width: '30%' }} >
-            <CardMedia
-              component='img'
-              image='https://image.freepik.com/free-vector/cartoon-jungle-background_52683-61450.jpg'
-              height={50}
-            />
-            <CardContent>
-              <Typography>
-                Retos Completados
-              </Typography>
-              <Typography>
-                {userData ? userData.challengesCompleted : 0}
-              </Typography>
-            </CardContent>
-          </Card >
+          
+          <RetosUser></RetosUser>
+
+
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Card >
@@ -206,7 +196,7 @@ const UserProfile = ({ children }) => {
       </SwipeableViews>
 
       <TransitionsModal open={openIngresarReto} onClose={handleCloseIngresarReto} title=''>
-        <IngresarReto />
+        <IngresarReto idUser = {idUser}/>
       </TransitionsModal>
 
       <TransitionsModal open={openUpdate} onClose={handleCloseUpdate} title={''}>

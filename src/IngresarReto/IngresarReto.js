@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 
 
-export default function IngresarReto()  {
+export default function IngresarReto({idUser})  {
 
 
   const [nombreReto, setNombreReto] = useState('')
@@ -29,7 +29,8 @@ export default function IngresarReto()  {
       "descripcionReto" : descripcionReto,
       "vacantes" : vacantes,
       "disponible": disponible,
-      "urlImg" : urlImg
+      "urlImg" : urlImg,
+      "idUsuario" : idUser,
     }
   
 

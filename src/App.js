@@ -18,6 +18,9 @@ function App() {
 
   const [currentRetos, setCurrentRetos] = useState([])
 
+
+
+
   const retos = []
 
 
@@ -47,6 +50,13 @@ function App() {
   }
 
 
+
+
+
+
+  ////=============================================================
+
+
   const { currentUser } = useSession();
 
 
@@ -66,11 +76,29 @@ function App() {
     fetchPosts();
   }, [])
 
+
+
+
+
+  
+  ////////============retos de usuario:================================
+
+    //retos usuario:
+    const [retosUsuario, setRetosUsuario] = useState([])
+    
+    const retosUser = []
+
+    for (let i = 0; i < retos.length; i++) {
+
+      if(retos.idUsuario === currentUser.uid)
+      retosUser.push(retos[i])
+    }
+
   return (
     <div className="App">
       <HideAppBar>
 
-        {currentUser ? <UserProfile >
+        {currentUser ? <UserProfile retosUser = {retosUser} idUser = {currentUser.uid}>
           <ResponsiveGrid retos={retos} />
         </UserProfile> :
           <ResponsiveGrid retos={retos} />
